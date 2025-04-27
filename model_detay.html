@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gelinlik Modeli Detayı | ElifWeddingdress</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #d81b60;
+            --secondary-color: #f8bbd0;
+            --light-color: #fff1f5;
+            --dark-color: #333;
+            --gray-color: #f5f5f5;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+        
+        .logo span {
+            font-weight: 300;
+            color: var(--dark-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        /* Model Detail */
+        .model-detail {
+            margin-top: 100px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .model-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .model-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .model-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .model-gallery {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .model-thumbnails {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .thumbnail {
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        
+        .thumbnail.active {
+            border-color: var(--primary-color);
+        }
+        
+        .instagram-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 15px;
+            color: #e1306c;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .instagram-link:hover {
+            text-decoration: underline;
+        }
+        
+        .instagram-link i {
+            margin-right: 5px;
+            font-size: 20px;
+        }
+        
+        .model-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .model-main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .model-video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-section {
+            margin-bottom: 25px;
+        }
+        
+        .info-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .info-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .price-tag {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .sizes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .size-item {
+            background-color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #b0154f;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--secondary-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .error-message {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            padding: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-column p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .model-content {
+                flex-direction: column;
+            }
+            
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            nav ul li {
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+            
+            .model-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Elif<span>Weddingdress</span></div>
+            <nav>
+                <ul>
+                    <li><a href="/">Ana Sayfa</a></li>
+                    <li><a href="/#collection">Koleksiyon</a></li>
+                    <li><a href="/#about">Hakkımızda</a></li>
+                    <li><a href="/#contact">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="modelDetailContainer" class="model-detail">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+        
+        <!-- Instagram Container -->
+        <div id="instagram-container" style="display: none; text-align: center; margin: 30px 0; padding: 20px; background-color: var(--light-color); border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <a id="instagram-link" href="#" target="_blank" style="display: inline-flex; align-items: center; font-size: 18px; color: #e1306c; padding: 10px 20px; border-radius: 4px; transition: all 0.3s ease;">
+                <i class="fab fa-instagram" style="font-size: 24px; margin-right: 10px;"></i>
+                Instagram'da Görüntüle
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>ElifWeddingdress</h3>
+                <p>Hayallerinizi gerçeğe dönüştürmek için buradayız. 10 yılı aşkın deneyimimizle, özel gününüzde yanınızdayız.</p>
+                <div class="social-icons">
+                    <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Hızlı Linkler</h3>
+                <ul>
+                    <li><a href="/">Ana Sayfa</a></li>
+                    <li><a href="/#collection">Koleksiyon</a></li>
+                    <li><a href="/#about">Hakkımızda</a></li>
+                    <li><a href="/#contact">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>İletişim Bilgileri</h3>
+                <ul>
+                    <li>Adres: Gelinlik Caddesi No:123, İstanbul</li>
+                    <li>Telefon: +90 555 123 4567</li>
+                    <li>Email: info@elifweddingdress.com</li>
+                    <li>Çalışma Saatleri: Pzt-Cmt, 10:00-19:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 ElifWeddingdress. Tüm hakları saklıdır.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL'den model ID'sini al
+            const modelId = window.location.pathname.split('/').pop();
+            
+            // Model detaylarını yükle
+            fetchModelDetails(modelId);
+        });
+        
+        async function fetchModelDetails(modelId) {
+            try {
+                const response = await fetch(`/api/models/${modelId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Model bulunamadı');
+                }
+                
+                const model = await response.json();
+                displayModelDetails(model);
+            } catch (error) {
+                console.error('Hata:', error);
+                showError('Model bilgileri yüklenemedi. Lütfen daha sonra tekrar deneyin.');
+            }
+        }
+        
+        function displayModelDetails(model) {
+            const container = document.getElementById('modelDetailContainer');
+            
+            // Yükleme animasyonunu kaldır
+            container.innerHTML = '';
+            
+            // Model başlığı
+            const header = document.createElement('div');
+            header.className = 'model-header';
+            
+            const title = document.createElement('h1');
+            title.className = 'model-title';
+            title.textContent = model.name;
+            
+            header.appendChild(title);
+            container.appendChild(header);
+            
+            // Model içeriği
+            const content = document.createElement('div');
+            content.className = 'model-content';
+            
+            // Galeri bölümü
+            const gallery = document.createElement('div');
+            gallery.className = 'model-gallery';
+            
+            // Ana görsel
+            const mainImage = document.createElement('img');
+            mainImage.className = 'model-main-image';
+            mainImage.id = 'mainImage';
+            
+            // Resim yollarını belirle
+            const imagePaths = model.imagePaths || [model.imagePath || model.mainImagePath];
+            let mainImageSrc = model.mainImagePath || (imagePaths.length > 0 ? imagePaths[0] : '');
+            
+            mainImage.src = mainImageSrc;
+            mainImage.alt = model.name;
+            mainImage.onerror = function() {
+                this.src = 'https://via.placeholder.com/600x800?text=Görsel+Bulunamadı';
+            };
+            
+            gallery.appendChild(mainImage);
+            
+            // Küçük resimler (varsa birden fazla resim)
+            if (imagePaths && imagePaths.length > 1) {
+                const thumbnails = document.createElement('div');
+                thumbnails.className = 'model-thumbnails';
+                
+                imagePaths.forEach((imgSrc, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                    thumb.src = imgSrc;
+                    thumb.alt = `${model.name} - Görsel ${index + 1}`;
+                    thumb.onclick = function() {
+                        // Tüm küçük resimlerin active sınıfını kaldır
+                        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                        // Tıklanan resme active sınıfını ekle
+                        this.classList.add('active');
+                        // Ana görseli güncelle
+                        document.getElementById('mainImage').src = this.src;
+                    };
+                    
+                    thumbnails.appendChild(thumb);
+                });
+                
+                gallery.appendChild(thumbnails);
+            }
+            
+            // Video (opsiyonel)
+            if (model.videoPath) {
+                const video = document.createElement('video');
+                video.className = 'model-video';
+                video.controls = true;
+                video.src = model.videoPath;
+                
+                gallery.appendChild(video);
+            }
+            
+            // Bilgi bölümü
+            const info = document.createElement('div');
+            info.className = 'model-info';
+            
+            // Fiyat bilgisi
+            const priceSection = document.createElement('div');
+            priceSection.className = 'info-section';
+            
+            const priceTitle = document.createElement('h3');
+            priceTitle.className = 'info-title';
+            priceTitle.textContent = 'Fiyatlar';
+            
+            const salePrice = document.createElement('div');
+            salePrice.className = 'price-tag';
+            salePrice.textContent = `Satılık: ${model.salePrice}₺`;
+            
+            const rentPrice = document.createElement('div');
+            rentPrice.className = 'price-tag';
+            rentPrice.textContent = `Kiralık: ${model.rentPrice}₺`;
+            
+            priceSection.appendChild(priceTitle);
+            priceSection.appendChild(salePrice);
+            priceSection.appendChild(rentPrice);
+            
+            // Instagram linki (varsa)
+            if (model.instagramUrl) {
+                const instagramLink = document.createElement('a');
+                instagramLink.href = model.instagramUrl;
+                instagramLink.target = '_blank';
+                instagramLink.className = 'instagram-link';
+                instagramLink.innerHTML = '<i class="fab fa-instagram"></i> Instagram\'da görüntüle';
+                
+                priceSection.appendChild(document.createElement('br'));
+                priceSection.appendChild(instagramLink);
+            }
+            
+            // Beden bilgisi
+            const sizesSection = document.createElement('div');
+            sizesSection.className = 'info-section';
+            
+            const sizesTitle = document.createElement('h3');
+            sizesTitle.className = 'info-title';
+            sizesTitle.textContent = 'Mevcut Bedenler';
+            
+            const sizesList = document.createElement('div');
+            sizesList.className = 'sizes-list';
+            
+            if (model.sizes && model.sizes.length > 0) {
+                model.sizes.forEach(size => {
+                    const sizeItem = document.createElement('span');
+                    sizeItem.className = 'size-item';
+                    sizeItem.textContent = size;
+                    sizesList.appendChild(sizeItem);
+                });
+            } else {
+                const noSizes = document.createElement('p');
+                noSizes.textContent = 'Beden bilgisi bulunmamaktadır.';
+                sizesList.appendChild(noSizes);
+            }
+            
+            sizesSection.appendChild(sizesTitle);
+            sizesSection.appendChild(sizesList);
+            
+            // Diğer bilgiler
+            const detailsSection = document.createElement('div');
+            detailsSection.className = 'info-section';
+            
+            const detailsTitle = document.createElement('h3');
+            detailsTitle.className = 'info-title';
+            detailsTitle.textContent = 'Detaylar';
+            
+            const detailsList = document.createElement('ul');
+            detailsList.innerHTML = `
+                <li>Model No: ${model.id}</li>
+                <li>Özel dikim mevcuttur</li>
+                <li>Randevu ile prova yapılabilir</li>
+                <li>Aksesuar seçenekleri mevcuttur</li>
+            `;
+            
+            detailsSection.appendChild(detailsTitle);
+            detailsSection.appendChild(detailsList);
+            
+            // Geri dön butonu
+            const backButton = document.createElement('a');
+            backButton.href = '/';
+            backButton.className = 'back-btn';
+            backButton.textContent = 'Koleksiyona Dön';
+            
+            // Bilgi bölümünü doldur
+            info.appendChild(priceSection);
+            info.appendChild(sizesSection);
+            info.appendChild(detailsSection);
+            info.appendChild(backButton);
+            
+            // İçeriği tamamla
+            content.appendChild(gallery);
+            content.appendChild(info);
+            
+            container.appendChild(content);
+            
+            // Instagram container'ını güncelle
+            if (model.instagramUrl) {
+                const instagramContainer = document.getElementById('instagram-container');
+                const instagramLink = document.getElementById('instagram-link');
+                
+                // Link URL'sini ayarla
+                instagramLink.href = model.instagramUrl;
+                
+                // Container'ı görünür yap
+                instagramContainer.style.display = 'block';
+            }
+        }
+        
+        function showError(message) {
+            const container = document.getElementById('modelDetailContainer');
+            container.innerHTML = `
+                <div class="error-message">
+                    <h2>Üzgünüz!</h2>
+                    <p>${message}</p>
+                    <a href="/" class="back-btn">Ana Sayfaya Dön</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

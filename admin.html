@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gelinlik Admin Paneli</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #d81b60;
+            margin-bottom: 30px;
+        }
+        
+        .add-button {
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .add-button:hover {
+            background-color: #b0154f;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow: auto;
+            padding-top: 50px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: auto;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            position: relative;
+            animation: modalOpen 0.4s;
+        }
+        
+        @keyframes modalOpen {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #888;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        select[multiple] {
+            height: 120px;
+        }
+        
+        .submit-btn {
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #b0154f;
+        }
+        
+        .models-list {
+            margin-top: 30px;
+        }
+        
+        .model-card {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+        
+        .model-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+        
+        .model-details {
+            flex: 1;
+        }
+        
+        .model-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #d81b60;
+        }
+        
+        .model-prices {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+        
+        .price {
+            font-weight: 500;
+        }
+        
+        .model-sizes {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-preview {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .edit-btn, .delete-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .edit-btn {
+            color: #2196F3;
+        }
+        
+        .delete-btn {
+            color: #f44336;
+        }
+        
+        .edit-btn:hover, .delete-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .model-actions {
+            display: flex;
+            margin-top: 10px;
+        }
+        
+        .cancel-btn {
+            background-color: #777;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ElifWeddingdress Admin Paneli</h1>
+        
+        <button class="add-button" id="openModalBtn">Model Ekle</button>
+        
+        <div id="modelModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Yeni Gelinlik Modeli Ekle</h2>
+                
+                <form id="modelForm">
+                    <div class="form-group">
+                        <label for="modelName">Model Adı*</label>
+                        <input type="text" id="modelName" name="modelName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="salePrice">Satılık Fiyatı (₺)*</label>
+                        <input type="number" id="salePrice" name="salePrice" required min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rentPrice">Kiralık Fiyatı (₺)*</label>
+                        <input type="number" id="rentPrice" name="rentPrice" required min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modelImages">Model Görselleri (Birden fazla seçebilirsiniz)*</label>
+                        <input type="file" id="modelImages" name="modelImages" accept="image/*" multiple required>
+                        <div id="imagePreview" class="image-preview"></div>
+                        <div id="imageError" class="error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modelVideo">Model Videosu (Opsiyonel)</label>
+                        <input type="file" id="modelVideo" name="modelVideo" accept="video/*">
+                        <div id="videoError" class="error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="instagramUrl">Instagram URL (Opsiyonel)</label>
+                        <input type="url" id="instagramUrl" name="instagramUrl" placeholder="https://www.instagram.com/...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="availableSizes">Mevcut Bedenler (Birden fazla seçim yapabilirsiniz)</label>
+                        <select id="availableSizes" name="availableSizes" multiple>
+                            <option value="34">34</option>
+                            <option value="36">36</option>
+                            <option value="38">38</option>
+                            <option value="40">40</option>
+                            <option value="42">42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+                            <option value="48">48</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" id="modelId" name="modelId">
+                    <button type="submit" class="submit-btn" id="saveButton">Kaydet</button>
+                    <button type="button" class="cancel-btn" id="cancelButton" style="display:none;">İptal</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="models-list" id="modelsList">
+            <h2>Mevcut Modeller</h2>
+            <!-- Mevcut modeller burada listelenecek -->
+        </div>
+    </div>
+
+    <script>
+        // Model verilerini tutacak JSON dosyası
+        let models = [];
+        
+        // Sayfa yüklendiğinde çalışacak
+        document.addEventListener("DOMContentLoaded", function() {
+            loadModels();
+            
+            // Modal açma/kapama işlevleri
+            const modal = document.getElementById("modelModal");
+            const openModalBtn = document.getElementById("openModalBtn");
+            const closeModal = document.getElementById("closeModal");
+            const cancelBtn = document.getElementById("cancelButton");
+            
+            openModalBtn.addEventListener("click", function() {
+                resetForm(); // Formun temiz olduğundan emin ol
+                modal.style.display = "block";
+            });
+            
+            closeModal.addEventListener("click", function() {
+                resetForm();
+                modal.style.display = "none";
+            });
+            
+            cancelBtn.addEventListener("click", function() {
+                resetForm();
+                modal.style.display = "none";
+            });
+            
+            window.addEventListener("click", function(event) {
+                if (event.target == modal) {
+                    resetForm();
+                    modal.style.display = "none";
+                }
+            });
+            
+            // Görsel yükleme olayını dinle (çoklu resim önizleme için)
+            document.getElementById("modelImages").addEventListener("change", handleImagePreview);
+            
+            // Form gönderim işlemi
+            const modelForm = document.getElementById("modelForm");
+            modelForm.addEventListener("submit", handleFormSubmit);
+        });
+        
+        // Modelleri yükle
+        function loadModels() {
+            fetch('/api/models')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Modeller yüklenemedi');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    models = data;
+                    displayModels();
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                    models = []; // Hata durumunda boş array kullan
+                    displayModels();
+                });
+        }
+        
+        // Modelleri görüntüle
+        function displayModels() {
+            const modelsList = document.getElementById("modelsList");
+            
+            // Başlık dışındaki içeriği temizle
+            while (modelsList.childNodes.length > 2) {
+                modelsList.removeChild(modelsList.lastChild);
+            }
+            
+            if (models.length === 0) {
+                const noModels = document.createElement("p");
+                noModels.textContent = "Henüz bir model eklenmemiş.";
+                modelsList.appendChild(noModels);
+                return;
+            }
+            
+            // Her model için kart oluştur
+            models.forEach((model, index) => {
+                const modelCard = document.createElement("div");
+                modelCard.classList.add("model-card");
+                
+                const image = document.createElement("img");
+                // Ana görsel veya ilk görsel kontrolü
+                let mainImage = '';
+                
+                // İlk olarak mainImagePath kontrolü yap
+                if (model.mainImagePath) {
+                    mainImage = model.mainImagePath;
+                }
+                // Eğer mainImagePath yoksa, imagePaths dizisinin ilk elemanını kontrol et
+                else if (model.imagePaths && model.imagePaths.length > 0) {
+                    mainImage = model.imagePaths[0];
+                }
+                // Son olarak eski model yapısındaki imagePath'i kontrol et
+                else if (model.imagePath) {
+                    mainImage = model.imagePath;
+                }
+                
+                image.src = mainImage;
+                image.alt = model.name;
+                image.classList.add("model-image");
+                
+                const details = document.createElement("div");
+                details.classList.add("model-details");
+                
+                const name = document.createElement("h3");
+                name.textContent = model.name;
+                name.classList.add("model-name");
+                
+                const prices = document.createElement("div");
+                prices.classList.add("model-prices");
+                
+                const salePrice = document.createElement("span");
+                salePrice.textContent = `Satılık: ${model.salePrice}₺`;
+                salePrice.classList.add("price");
+                
+                const rentPrice = document.createElement("span");
+                rentPrice.textContent = `Kiralık: ${model.rentPrice}₺`;
+                rentPrice.classList.add("price");
+                
+                prices.appendChild(salePrice);
+                prices.appendChild(rentPrice);
+                
+                details.appendChild(name);
+                details.appendChild(prices);
+                
+                if (model.sizes && model.sizes.length > 0) {
+                    const sizes = document.createElement("div");
+                    sizes.textContent = `Bedenler: ${model.sizes.join(", ")}`;
+                    sizes.classList.add("model-sizes");
+                    details.appendChild(sizes);
+                }
+                
+                // Instagram linki varsa göster
+                if (model.instagramUrl) {
+                    const instagramLink = document.createElement("div");
+                    const link = document.createElement("a");
+                    link.href = model.instagramUrl;
+                    link.target = "_blank";
+                    link.textContent = "Instagram";
+                    instagramLink.appendChild(link);
+                    details.appendChild(instagramLink);
+                }
+                
+                // Düzenle ve Sil butonları
+                const actions = document.createElement("div");
+                actions.className = "model-actions";
+                
+                const editBtn = document.createElement("button");
+                editBtn.className = "edit-btn";
+                editBtn.innerHTML = '<i class="fas fa-edit"></i> Düzenle';
+                editBtn.onclick = () => editModel(model.id);
+                
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "delete-btn";
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Sil';
+                deleteBtn.onclick = () => deleteModel(model.id);
+                
+                actions.appendChild(editBtn);
+                actions.appendChild(deleteBtn);
+                details.appendChild(actions);
+                
+                modelCard.appendChild(image);
+                modelCard.appendChild(details);
+                
+                modelsList.appendChild(modelCard);
+            });
+        }
+        
+        // Form gönderim işleyicisi
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const modelId = document.getElementById("modelId").value;
+            const modelName = document.getElementById("modelName").value;
+            const salePrice = document.getElementById("salePrice").value;
+            const rentPrice = document.getElementById("rentPrice").value;
+            const imageFiles = document.getElementById("modelImages").files;
+            const videoFile = document.getElementById("modelVideo").files[0]; // opsiyonel
+            const instagramUrl = document.getElementById("instagramUrl").value;
+            
+            // Bedenler (opsiyonel)
+            const sizesSelect = document.getElementById("availableSizes");
+            const selectedSizes = Array.from(sizesSelect.selectedOptions).map(option => option.value);
+            
+            // Dosya doğrulama
+            const imageError = document.getElementById("imageError");
+            imageError.textContent = "";
+            
+            if (imageFiles.length === 0 && !modelId) {
+                imageError.textContent = "Lütfen en az bir görsel seçiniz";
+                return;
+            }
+            
+            try {
+                // Görselleri saklamak için diziler
+                let imagePaths = [];
+                let mainImagePath = "";
+                
+                // Yeni görsel yüklendiyse
+                if (imageFiles.length > 0) {
+                    // Görselleri yükle
+                    const formData = new FormData();
+                    for (let i = 0; i < imageFiles.length; i++) {
+                        formData.append('images', imageFiles[i]);
+                    }
+                    
+                    const response = await fetch('/api/upload-images', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (!result.success) {
+                        throw new Error('Görseller yüklenemedi: ' + result.error);
+                    }
+                    
+                    imagePaths = result.imagePaths;
+                    mainImagePath = imagePaths[0]; // İlk görsel ana görsel olacak
+                } else if (modelId) {
+                    // Düzenleme modunda ve yeni görsel yüklenmemişse eski görselleri koru
+                    const existingModel = models.find(m => m.id === modelId);
+                    if (existingModel) {
+                        imagePaths = existingModel.imagePaths || [];
+                        mainImagePath = existingModel.mainImagePath || "";
+                    }
+                }
+                
+                // Video dosyasını yükle (varsa)
+                let videoPath = "";
+                if (videoFile) {
+                    // Video yükleme işlemi (şimdilik eklenmedi)
+                    // Bu kısmı daha sonra ekleyebilirsiniz
+                } else if (modelId) {
+                    // Düzenleme modunda ve yeni video yüklenmemişse eski videoyu koru
+                    const existingModel = models.find(m => m.id === modelId);
+                    if (existingModel && existingModel.videoPath) {
+                        videoPath = existingModel.videoPath;
+                    }
+                }
+                
+                // Model nesnesi
+                const modelData = {
+                    name: modelName,
+                    salePrice: parseFloat(salePrice),
+                    rentPrice: parseFloat(rentPrice),
+                    imagePaths: imagePaths,
+                    mainImagePath: mainImagePath,
+                    videoPath: videoPath,
+                    instagramUrl: instagramUrl,
+                    sizes: selectedSizes
+                };
+                
+                // Yeni model mi güncelleme mi?
+                if (modelId) {
+                    // Mevcut modeli güncelle
+                    const existingModel = models.find(m => m.id === modelId);
+                    if (existingModel) {
+                        // Model düzenlenirken yeni görsel yüklendiyse
+                        if (imageFiles.length > 0) {
+                            // Eski görselleri temizle
+                            if (existingModel.imagePaths && existingModel.imagePaths.length > 0) {
+                                // Eski görselleri silmek için sunucuya istek gönder
+                                for (const oldImagePath of existingModel.imagePaths) {
+                                    try {
+                                        await fetch('/api/delete-image', {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ imagePath: oldImagePath })
+                                        });
+                                    } catch (error) {
+                                        console.error("Eski görsel silinirken hata:", error);
+                                    }
+                                }
+                            }
+                            
+                            // Mevcut modelin özelliklerini yeni verilerle birleştir
+                            Object.assign(existingModel, {
+                                ...modelData,
+                                id: modelId
+                            });
+                        } else {
+                            // Görsel yüklenmemişse, eski görselleri koru
+                            Object.assign(existingModel, {
+                                name: modelName,
+                                salePrice: parseFloat(salePrice),
+                                rentPrice: parseFloat(rentPrice),
+                                videoPath: videoPath || existingModel.videoPath,
+                                instagramUrl: instagramUrl,
+                                sizes: selectedSizes,
+                                id: modelId
+                            });
+                        }
+                    }
+                } else {
+                    // Yeni model oluştur
+                    const newModel = {
+                        id: Date.now().toString(),
+                        ...modelData
+                    };
+                    
+                    // Modeller listesine ekle
+                    models.push(newModel);
+                }
+                
+                // JSON dosyasına kaydet
+                await saveModels();
+                
+                // Formu sıfırla, edit modundan çık ve modalı kapat
+                resetForm();
+                document.getElementById("modelModal").style.display = "none";
+                
+                // Güncel modelleri görüntüle
+                displayModels();
+                
+                alert(modelId ? "Model başarıyla güncellendi!" : "Model başarıyla eklendi!");
+                
+            } catch (error) {
+                console.error("Hata:", error);
+                alert("İşlem sırasında bir hata oluştu: " + error.message);
+            }
+        }
+        
+        // Formu sıfırla
+        function resetForm() {
+            document.getElementById("modelForm").reset();
+            document.getElementById("modelId").value = "";
+            document.getElementById("saveButton").textContent = "Kaydet";
+            document.getElementById("cancelButton").style.display = "none";
+            document.getElementById("imagePreview").innerHTML = "";
+        }
+        
+        // Modelleri JSON dosyasına kaydet
+        async function saveModels() {
+            // LocalStorage'a da kaydet (yedek olarak)
+            localStorage.setItem('gelinlikModels', JSON.stringify(models));
+            
+            // API üzerinden models.json dosyasını güncelle
+            try {
+                const response = await fetch('/api/models', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(models)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Modeller kaydedilemedi');
+                }
+                
+                const result = await response.json();
+                console.log(result.message);
+                
+            } catch (error) {
+                console.error('JSON kaydetme hatası:', error);
+                alert("Modeller kaydedilirken bir hata oluştu! Lütfen sunucunun çalıştığından emin olun.");
+                throw error;
+            }
+        }
+        
+        // Başlangıçta localStorage'dan modelleri yükle (simülasyon amaçlı)
+        function initLocalStorage() {
+            const storedModels = localStorage.getItem('gelinlikModels');
+            if (storedModels) {
+                models = JSON.parse(storedModels);
+            }
+        }
+        
+        // Sayfa yüklendiğinde localStorage'dan modelleri yükle
+        initLocalStorage();
+        
+        // Görsel önizleme fonksiyonu
+        function handleImagePreview(e) {
+            const files = e.target.files;
+            const previewContainer = document.getElementById("imagePreview");
+            previewContainer.innerHTML = "";
+            
+            if (files.length === 0) return;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!file.type.startsWith('image/')) continue;
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const previewItem = document.createElement("div");
+                    previewItem.className = "preview-item";
+                    
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    
+                    previewItem.appendChild(img);
+                    previewContainer.appendChild(previewItem);
+                }
+                
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Model düzenleme fonksiyonu
+        async function editModel(modelId) {
+            const model = models.find(m => m.id === modelId);
+            if (!model) return;
+            
+            // Form alanlarını doldur
+            document.getElementById("modelId").value = model.id;
+            document.getElementById("modelName").value = model.name;
+            document.getElementById("salePrice").value = model.salePrice;
+            document.getElementById("rentPrice").value = model.rentPrice;
+            document.getElementById("instagramUrl").value = model.instagramUrl || "";
+            
+            // Bedenler
+            const sizesSelect = document.getElementById("availableSizes");
+            for (let i = 0; i < sizesSelect.options.length; i++) {
+                sizesSelect.options[i].selected = model.sizes.includes(sizesSelect.options[i].value);
+            }
+            
+            // Mevcut resimleri önizleme olarak göster
+            const previewContainer = document.getElementById("imagePreview");
+            previewContainer.innerHTML = "";
+            
+            // Tüm görselleri topla - imagePaths veya imagePath kaynaklarından
+            let images = [];
+            if (model.imagePaths && model.imagePaths.length > 0) {
+                images = model.imagePaths;
+            } else if (model.imagePath) {
+                images = [model.imagePath];
+            } else if (model.mainImagePath) {
+                images = [model.mainImagePath];
+            }
+            
+            // Önceki görselleri göster
+            images.forEach(imgSrc => {
+                if (imgSrc) {
+                    const previewItem = document.createElement("div");
+                    previewItem.className = "preview-item";
+                    
+                    const img = document.createElement("img");
+                    img.src = imgSrc;
+                    
+                    previewItem.appendChild(img);
+                    previewContainer.appendChild(previewItem);
+                }
+            });
+            
+            // Kaydet butonunu güncelle
+            document.getElementById("saveButton").textContent = "Güncelle";
+            // İptal butonunu göster
+            document.getElementById("cancelButton").style.display = "block";
+            
+            // Modalı aç
+            document.getElementById("modelModal").style.display = "block";
+        }
+        
+        // Model silme fonksiyonu
+        function deleteModel(modelId) {
+            if (!confirm("Bu modeli silmek istediğinizden emin misiniz?")) return;
+            
+            const index = models.findIndex(m => m.id === modelId);
+            if (index !== -1) {
+                models.splice(index, 1);
+                saveModels().then(() => {
+                    displayModels();
+                    alert("Model başarıyla silindi!");
+                }).catch(error => {
+                    console.error("Silme hatası:", error);
+                    alert("Model silinirken bir hata oluştu!");
+                });
+            }
+        }
+    </script>
+</body>
+</html>

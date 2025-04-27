@@ -1,0 +1,6 @@
+-yüksek boyutlu video kabul etmiyor.
+-arayüzün iyileştirilmesi gerek
+-insta ve wp linkleri eklenecek.
+-model detayında insta urlsi eklenmeli
+-admin panele model düzenleme gelmeli
+-randevu oluşturma formu hazırlanmalı.
