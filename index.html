@@ -100,7 +100,7 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1349&q=80') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('background.jpg') no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -430,6 +430,48 @@
                 margin-right: 15px;
             }
         }
+        
+        .contact-info {
+            margin-top: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            font-size: 1.2rem;
+        }
+        
+        .contact-item i {
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .contact-link {
+            color: var(--dark-color);
+            transition: color 0.3s;
+        }
+        
+        .contact-link:hover {
+            color: var(--primary-color);
+        }
+
+        .contact-text {
+            color: var(--dark-color);
+        }
+
+        .map-container {
+            margin-top: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-container iframe {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -462,7 +504,7 @@
         <h2 class="section-title">Hakkımızda</h2>
         <p class="subtitle">Hayatınızın en özel gününde yanınızdayız</p>
         <p>
-            ElifWeddingdress olarak, 10 yılı aşkın deneyimimizle, her gelinin hayallerini gerçeğe dönüştürmeyi hedefliyoruz. Alanında uzman ekibimiz, en son trendleri takip ederek, her vücut tipine uygun gelinlikler tasarlıyor ve kişiye özel çözümler sunuyoruz. Amacımız, hayatınızın en özel gününde size mükemmel bir deneyim yaşatmak ve hayalinizdeki gelinliği bulmanıza yardımcı olmak.
+            ElifWeddingdress olarak, 10 yılı aşkın deneyimimizle, her gelinin hayallerini gerçeğe dönüştürmeyi hedefliyoruz. Alanında uzman ekibimiz, en son trendleri takip ederek, her vücut tipine uygun gelinlikler tasarlıyor ve kişiye özel çözümler sunuyoruz. Uzaktan ölçü ve dikim konusunda profesyonel çözümler sunuyoruz. Amacımız, hayatınızın en özel gününde size mükemmel bir deneyim yaşatmak ve hayalinizdeki gelinliği bulmanıza yardımcı olmak.
         </p>
     </section>
 
@@ -483,19 +525,37 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <h2 class="section-title">Mutlu Gelinlerimiz</h2>
-        <p class="subtitle">Müşterilerimizin Yorumları</p>
-        <!-- Add testimonials later -->
-    </section>
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="contact-container">
             <h2 class="section-title">İletişim</h2>
             <p class="subtitle">Sorularınız için bize ulaşın</p>
-            <!-- Add contact form later -->
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <a href="https://wa.me/905397723946" target="_blank" class="contact-link">WhatsApp: 0539 772 3946</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <a href="https://www.instagram.com/elifnasuhbeyoglu.bridal?igsh=MWVqNGQzam84Zm5pcA==" target="_blank" class="contact-link">Instagram: @elifnasuhbeyoglu.bridal</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="contact-text">Akşemsettin Mahallesi Çakmak Sokak No:56/60 İstanbul/Eyüpsultan</span>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.352521980264!2d28.924005276531535!3d41.08314371481096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab11e2d18fd9b%3A0xe5b00c097f77be72!2zQWvFn2Vtc2V0dGluLCDDh2FrbWFrIFNrLiBObzo1NiBEOjYwLCAzNDA3MCBFecO8cHN1bHRhbi_EsHN0YW5idWw!5e0!3m2!1str!2str!4v1748445216313!5m2!1str!2str" 
+                    width="100%" 
+                    height="400" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
         </div>
     </section>
 
@@ -518,21 +578,19 @@
                     <li><a href="#collection">Koleksiyon</a></li>
                     <li><a href="#about">Hakkımızda</a></li>
                     <li><a href="#contact">İletişim</a></li>
-                    <li><a href="admin.html">Admin</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>İletişim Bilgileri</h3>
                 <ul>
-                    <li>Adres: Gelinlik Caddesi No:123, İstanbul</li>
-                    <li>Telefon: +90 555 123 4567</li>
-                    <li>Email: info@ruyagelinlik.com</li>
-                    <li>Çalışma Saatleri: Pzt-Cmt, 10:00-19:00</li>
+                    <li>Adres: İstanbul/Eyüpsultan Akşemsettin Mahallesi Çakmak Sokak No:56/60</li>
+                    <li>Telefon: +90 539 772 3946</li>
+                    <li>Çalışma Saatleri: Whatsapp ile randevu oluşturmanız gerekmektedir.</li>
                 </ul>
             </div>
         </div>
         <div class="copyright">
-            &copy; 2023 ElifWeddingdress. Tüm hakları saklıdır.
+            &copy; 2025 ElifWeddingdress. Tüm hakları saklıdır.
         </div>
     </footer>
 
