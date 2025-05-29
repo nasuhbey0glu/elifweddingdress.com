@@ -116,17 +116,17 @@
   {
     "id": "1748447059183",
     "name": "MASAL MODEL",
-    "salePrice": 11000,
+    "salePrice": 95000,
     "rentPrice": 35000,
     "imagePaths": [
-      "/images/47755b2c-9f33-4055-aeed-d1f9c035acad-1748447059159.jpg",
-      "/images/0b499516-a2a7-4a8b-b1e3-bae166e05179-1748447059165.jpg",
-      "/images/0b0ca0ce-d87b-495c-9bfd-67d25e082dea-1748447059168.jpg",
-      "/images/b91edd4a-e1b1-4161-bb92-9a344b379a64-1748447059171.jpg",
-      "/images/f88036dc-d3e1-4c5b-895d-fc30733c805b-1748447059175.jpg",
-      "/images/07b9b34a-3150-45ee-a7c2-d27a654e4da8-1748447059177.jpg"
+      "/images/18772dd4-883b-406b-bc6e-7d477cc9e726-1748540583917.jpg",
+      "/images/051d432e-8359-468c-ac1e-7250fc9cbd58-1748540583926.jpg",
+      "/images/b1861188-ae79-4286-a827-7a9bc1cfaa52-1748540583930.jpg",
+      "/images/9eca9ed8-508d-46a4-aeab-941c0367d080-1748540583935.jpg",
+      "/images/c263409d-5a09-47df-91d8-f6a1b5d972fd-1748540583939.jpg",
+      "/images/fc0abf77-b4ca-42f1-8815-c2c311e94f28-1748540583942.jpg"
     ],
-    "mainImagePath": "/images/47755b2c-9f33-4055-aeed-d1f9c035acad-1748447059159.jpg",
+    "mainImagePath": "/images/18772dd4-883b-406b-bc6e-7d477cc9e726-1748540583917.jpg",
     "videoPath": "",
     "instagramUrl": "https://www.instagram.com/reel/CqvwfoVNeXA/?igsh=azk0bmoyY2ttZ3p5",
     "sizes": [
